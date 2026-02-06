@@ -1,26 +1,114 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ---------- base reset ---------- */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- smooth anchor scroll + navbar offset ---------- */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem; /* navbar height */
+}
+
+/* ---------- section safety ---------- */
+section {
+  position: relative;
+  z-index: 1;
+  scroll-margin-top: 4rem; /* extra safety for anchors */
+  will-change: transform, opacity; /* smoother motion */
+}
+
+/* ---------- mobile overflow fix ---------- */
+body {
+  overflow-x: hidden;
+}
+
+/* ---------- hide horizontal scrollbar (dynamic island nav) ---------- */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE / Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* ---------- selection color ---------- */
+::selection {
+  background: rgba(56, 189, 248, 0.35);
+  color: white;
+}
+
+/* ---------- subtle focus outline ---------- */
+:focus-visible {
+  outline: 2px solid rgba(56, 189, 248, 0.6);
+  outline-offset: 2px;
+}
+
+/* ---------- premium background circle (FIXED) ---------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  margin: auto;
+
+  /* prevents distortion on tall / ultrawide screens */
+  width: min(1200px, 120vw);
+  height: min(1200px, 120vw);
+
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.18) 0%,
+    rgba(56, 189, 248, 0.08) 35%,
+    rgba(0, 0, 0, 0) 65%
+  );
+}
+
+/* ---------- soft section divider ---------- */
+.section-divider::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(56, 189, 248, 0.25),
+    transparent
+  );
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+/* ---------- GPU acceleration ---------- */
+.motion-safe {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* ---------- NAVBAR PROTECTION LAYER ---------- */
+nav {
+  position: relative;
+  z-index: 9999;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
 }
